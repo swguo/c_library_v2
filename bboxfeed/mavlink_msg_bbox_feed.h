@@ -28,24 +28,24 @@ typedef struct __mavlink_bbox_feed_t {
     42202, \
     "BBOX_FEED", \
     6, \
-    {  { "object_id", NULL, MAVLINK_TYPE_UINT32_T, 0, 8, offsetof(mavlink_bbox_feed_t, object_id) }, \
+    {  { "timestamp", NULL, MAVLINK_TYPE_UINT64_T, 0, 0, offsetof(mavlink_bbox_feed_t, timestamp) }, \
+         { "object_id", NULL, MAVLINK_TYPE_UINT32_T, 0, 8, offsetof(mavlink_bbox_feed_t, object_id) }, \
          { "x", NULL, MAVLINK_TYPE_FLOAT, 0, 12, offsetof(mavlink_bbox_feed_t, x) }, \
          { "y", NULL, MAVLINK_TYPE_FLOAT, 0, 16, offsetof(mavlink_bbox_feed_t, y) }, \
          { "w", NULL, MAVLINK_TYPE_FLOAT, 0, 20, offsetof(mavlink_bbox_feed_t, w) }, \
          { "h", NULL, MAVLINK_TYPE_FLOAT, 0, 24, offsetof(mavlink_bbox_feed_t, h) }, \
-         { "timestamp", NULL, MAVLINK_TYPE_UINT64_T, 0, 0, offsetof(mavlink_bbox_feed_t, timestamp) }, \
          } \
 }
 #else
 #define MAVLINK_MESSAGE_INFO_BBOX_FEED { \
     "BBOX_FEED", \
     6, \
-    {  { "object_id", NULL, MAVLINK_TYPE_UINT32_T, 0, 8, offsetof(mavlink_bbox_feed_t, object_id) }, \
+    {  { "timestamp", NULL, MAVLINK_TYPE_UINT64_T, 0, 0, offsetof(mavlink_bbox_feed_t, timestamp) }, \
+         { "object_id", NULL, MAVLINK_TYPE_UINT32_T, 0, 8, offsetof(mavlink_bbox_feed_t, object_id) }, \
          { "x", NULL, MAVLINK_TYPE_FLOAT, 0, 12, offsetof(mavlink_bbox_feed_t, x) }, \
          { "y", NULL, MAVLINK_TYPE_FLOAT, 0, 16, offsetof(mavlink_bbox_feed_t, y) }, \
          { "w", NULL, MAVLINK_TYPE_FLOAT, 0, 20, offsetof(mavlink_bbox_feed_t, w) }, \
          { "h", NULL, MAVLINK_TYPE_FLOAT, 0, 24, offsetof(mavlink_bbox_feed_t, h) }, \
-         { "timestamp", NULL, MAVLINK_TYPE_UINT64_T, 0, 0, offsetof(mavlink_bbox_feed_t, timestamp) }, \
          } \
 }
 #endif
@@ -56,16 +56,16 @@ typedef struct __mavlink_bbox_feed_t {
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
  *
+ * @param timestamp  Microsecond Unix epoch timestamp
  * @param object_id  Object identifier or class label
  * @param x  Center X in [0,1]
  * @param y  Center Y in [0,1]
  * @param w  Width in [0,1]
  * @param h  Height in [0,1]
- * @param timestamp  Microsecond Unix epoch timestamp
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_bbox_feed_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                               uint32_t object_id, float x, float y, float w, float h, uint64_t timestamp)
+                               uint64_t timestamp, uint32_t object_id, float x, float y, float w, float h)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_BBOX_FEED_LEN];
@@ -100,16 +100,16 @@ static inline uint16_t mavlink_msg_bbox_feed_pack(uint8_t system_id, uint8_t com
  * @param status MAVLink status structure
  * @param msg The MAVLink message to compress the data into
  *
+ * @param timestamp  Microsecond Unix epoch timestamp
  * @param object_id  Object identifier or class label
  * @param x  Center X in [0,1]
  * @param y  Center Y in [0,1]
  * @param w  Width in [0,1]
  * @param h  Height in [0,1]
- * @param timestamp  Microsecond Unix epoch timestamp
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_bbox_feed_pack_status(uint8_t system_id, uint8_t component_id, mavlink_status_t *_status, mavlink_message_t* msg,
-                               uint32_t object_id, float x, float y, float w, float h, uint64_t timestamp)
+                               uint64_t timestamp, uint32_t object_id, float x, float y, float w, float h)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_BBOX_FEED_LEN];
@@ -147,17 +147,17 @@ static inline uint16_t mavlink_msg_bbox_feed_pack_status(uint8_t system_id, uint
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
  * @param msg The MAVLink message to compress the data into
+ * @param timestamp  Microsecond Unix epoch timestamp
  * @param object_id  Object identifier or class label
  * @param x  Center X in [0,1]
  * @param y  Center Y in [0,1]
  * @param w  Width in [0,1]
  * @param h  Height in [0,1]
- * @param timestamp  Microsecond Unix epoch timestamp
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_bbox_feed_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
                                mavlink_message_t* msg,
-                                   uint32_t object_id,float x,float y,float w,float h,uint64_t timestamp)
+                                   uint64_t timestamp,uint32_t object_id,float x,float y,float w,float h)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_BBOX_FEED_LEN];
@@ -195,7 +195,7 @@ static inline uint16_t mavlink_msg_bbox_feed_pack_chan(uint8_t system_id, uint8_
  */
 static inline uint16_t mavlink_msg_bbox_feed_encode(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg, const mavlink_bbox_feed_t* bbox_feed)
 {
-    return mavlink_msg_bbox_feed_pack(system_id, component_id, msg, bbox_feed->object_id, bbox_feed->x, bbox_feed->y, bbox_feed->w, bbox_feed->h, bbox_feed->timestamp);
+    return mavlink_msg_bbox_feed_pack(system_id, component_id, msg, bbox_feed->timestamp, bbox_feed->object_id, bbox_feed->x, bbox_feed->y, bbox_feed->w, bbox_feed->h);
 }
 
 /**
@@ -209,7 +209,7 @@ static inline uint16_t mavlink_msg_bbox_feed_encode(uint8_t system_id, uint8_t c
  */
 static inline uint16_t mavlink_msg_bbox_feed_encode_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, const mavlink_bbox_feed_t* bbox_feed)
 {
-    return mavlink_msg_bbox_feed_pack_chan(system_id, component_id, chan, msg, bbox_feed->object_id, bbox_feed->x, bbox_feed->y, bbox_feed->w, bbox_feed->h, bbox_feed->timestamp);
+    return mavlink_msg_bbox_feed_pack_chan(system_id, component_id, chan, msg, bbox_feed->timestamp, bbox_feed->object_id, bbox_feed->x, bbox_feed->y, bbox_feed->w, bbox_feed->h);
 }
 
 /**
@@ -223,23 +223,23 @@ static inline uint16_t mavlink_msg_bbox_feed_encode_chan(uint8_t system_id, uint
  */
 static inline uint16_t mavlink_msg_bbox_feed_encode_status(uint8_t system_id, uint8_t component_id, mavlink_status_t* _status, mavlink_message_t* msg, const mavlink_bbox_feed_t* bbox_feed)
 {
-    return mavlink_msg_bbox_feed_pack_status(system_id, component_id, _status, msg,  bbox_feed->object_id, bbox_feed->x, bbox_feed->y, bbox_feed->w, bbox_feed->h, bbox_feed->timestamp);
+    return mavlink_msg_bbox_feed_pack_status(system_id, component_id, _status, msg,  bbox_feed->timestamp, bbox_feed->object_id, bbox_feed->x, bbox_feed->y, bbox_feed->w, bbox_feed->h);
 }
 
 /**
  * @brief Send a bbox_feed message
  * @param chan MAVLink channel to send the message
  *
+ * @param timestamp  Microsecond Unix epoch timestamp
  * @param object_id  Object identifier or class label
  * @param x  Center X in [0,1]
  * @param y  Center Y in [0,1]
  * @param w  Width in [0,1]
  * @param h  Height in [0,1]
- * @param timestamp  Microsecond Unix epoch timestamp
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
-static inline void mavlink_msg_bbox_feed_send(mavlink_channel_t chan, uint32_t object_id, float x, float y, float w, float h, uint64_t timestamp)
+static inline void mavlink_msg_bbox_feed_send(mavlink_channel_t chan, uint64_t timestamp, uint32_t object_id, float x, float y, float w, float h)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_BBOX_FEED_LEN];
@@ -272,7 +272,7 @@ static inline void mavlink_msg_bbox_feed_send(mavlink_channel_t chan, uint32_t o
 static inline void mavlink_msg_bbox_feed_send_struct(mavlink_channel_t chan, const mavlink_bbox_feed_t* bbox_feed)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    mavlink_msg_bbox_feed_send(chan, bbox_feed->object_id, bbox_feed->x, bbox_feed->y, bbox_feed->w, bbox_feed->h, bbox_feed->timestamp);
+    mavlink_msg_bbox_feed_send(chan, bbox_feed->timestamp, bbox_feed->object_id, bbox_feed->x, bbox_feed->y, bbox_feed->w, bbox_feed->h);
 #else
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_BBOX_FEED, (const char *)bbox_feed, MAVLINK_MSG_ID_BBOX_FEED_MIN_LEN, MAVLINK_MSG_ID_BBOX_FEED_LEN, MAVLINK_MSG_ID_BBOX_FEED_CRC);
 #endif
@@ -286,7 +286,7 @@ static inline void mavlink_msg_bbox_feed_send_struct(mavlink_channel_t chan, con
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_bbox_feed_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint32_t object_id, float x, float y, float w, float h, uint64_t timestamp)
+static inline void mavlink_msg_bbox_feed_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint64_t timestamp, uint32_t object_id, float x, float y, float w, float h)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char *buf = (char *)msgbuf;
@@ -316,6 +316,16 @@ static inline void mavlink_msg_bbox_feed_send_buf(mavlink_message_t *msgbuf, mav
 
 // MESSAGE BBOX_FEED UNPACKING
 
+
+/**
+ * @brief Get field timestamp from bbox_feed message
+ *
+ * @return  Microsecond Unix epoch timestamp
+ */
+static inline uint64_t mavlink_msg_bbox_feed_get_timestamp(const mavlink_message_t* msg)
+{
+    return _MAV_RETURN_uint64_t(msg,  0);
+}
 
 /**
  * @brief Get field object_id from bbox_feed message
@@ -365,16 +375,6 @@ static inline float mavlink_msg_bbox_feed_get_w(const mavlink_message_t* msg)
 static inline float mavlink_msg_bbox_feed_get_h(const mavlink_message_t* msg)
 {
     return _MAV_RETURN_float(msg,  24);
-}
-
-/**
- * @brief Get field timestamp from bbox_feed message
- *
- * @return  Microsecond Unix epoch timestamp
- */
-static inline uint64_t mavlink_msg_bbox_feed_get_timestamp(const mavlink_message_t* msg)
-{
-    return _MAV_RETURN_uint64_t(msg,  0);
 }
 
 /**
