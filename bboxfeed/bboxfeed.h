@@ -10,7 +10,7 @@
     #error Wrong include order: MAVLINK_BBOXFEED.H MUST NOT BE DIRECTLY USED. Include mavlink.h from the same directory instead or set ALL AND EVERY defines from MAVLINK.H manually accordingly, including the #define MAVLINK_H call.
 #endif
 
-#define MAVLINK_BBOXFEED_XML_HASH -6724874870187981096
+#define MAVLINK_BBOXFEED_XML_HASH 7292477138874576126
 
 #ifdef __cplusplus
 extern "C" {
@@ -49,6 +49,7 @@ extern "C" {
 #include "./mavlink_msg_bbox_feed.h"
 
 // base include
+#include "../common/common.h"
 #include "../development/development.h"
 
 
